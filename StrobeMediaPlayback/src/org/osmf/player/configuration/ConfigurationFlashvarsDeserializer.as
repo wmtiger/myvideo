@@ -29,6 +29,7 @@ package org.osmf.player.configuration
 	import org.osmf.net.DynamicStreamingResource;
 	import org.osmf.player.chrome.configuration.ConfigurationUtils;
 	import org.osmf.player.media.StrobeMediaPlayer;
+	import org.osmf.player.utils.WmLog;
 
 
 	/**
@@ -53,7 +54,13 @@ package org.osmf.player.configuration
 		 * specialized class as soon as this need arises.
 		 */
 		public function deserialize(parameters:Object):void
-		{	
+		{
+			
+			for (var test:String in parameters)
+			{
+				WmLog.info(test+"->"+parameters[test]);
+			}
+			
 			// WORKARROUND: for FM-950 - to be removed once this is fixed.
 			if (parameters.hasOwnProperty("src") && parameters.src != null)
 			{

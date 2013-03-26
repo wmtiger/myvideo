@@ -41,9 +41,10 @@ package org.osmf.player.utils
 		
 		private static function onKeyUp(event:KeyboardEvent):void
 		{
+			//27 is ESC , 192 is `
 			//if (event.ctrlKey && event.keyCode == 27)
 			//info(event.keyCode);
-			if (event.keyCode == 27)
+			if (event.keyCode == 192)
 			{
 				//按下ESC键
 				toogle();

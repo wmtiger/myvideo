@@ -47,6 +47,7 @@ package
 	import org.osmf.player.media.*;
 	import org.osmf.player.plugins.PluginLoader;
 	import org.osmf.player.utils.StrobeUtils;
+	import org.osmf.player.utils.WmLog;
 	import org.osmf.traits.DVRTrait;
 	import org.osmf.traits.LoadTrait;
 	import org.osmf.traits.MediaTraitType;
@@ -100,6 +101,13 @@ package
 		public function initialize(parameters:Object, stage:Stage, loaderInfo:LoaderInfo, pluginHostWhitelist:Array):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			
+			CONFIG::LOGGING
+			{
+				WmLog.init(stage);
+				stage.addChild(WmLog.console);
+			}
+			
 			
 			// Keep a reference to the stage (when a preloader is used, the
 			// local stage property is null at this time):
@@ -170,6 +178,8 @@ package
 				CONFIG::LOGGING
 				{
 					logger.trackObject("PlayerConfiguration", configuration);
+					WmLog.info("PlayerConfiguration", configuration.expandedBufferTime);
+					WmLog.info("PlayerConfiguration", configuration.resource);
 				}
 				
 				if (configuration.skin != null && configuration.skin != "")
@@ -304,7 +314,9 @@ package
 				for each(pluginResource in pluginConfigurations)
 				{
 					logger.trackObject("PluginResource"+(p++), pluginResource);
+					WmLog.info("PluginResource"+(p), pluginResource);
 				}
+				
 			}
 			
 			// EXPERIMENTAL: Ad plugin integration
@@ -318,6 +330,12 @@ package
 			factory = injector.getInstance(MediaFactory);
 			pluginLoader = new PluginLoader(pluginConfigurations, factory, pluginHostWhitelist);
 			pluginLoader.haltOnError = configuration.haltOnError;
+			
+			CONFIG::LOGGING
+			{
+				WmLog.info("pluginHostWhitelist->"+pluginHostWhitelist);
+				WmLog.info("pluginConfigurations->"+pluginConfigurations);
+			}
 			
 			pluginLoader.addEventListener(Event.COMPLETE, loadMedia);
 			pluginLoader.addEventListener(MediaErrorEvent.MEDIA_ERROR, onMediaError);
@@ -463,7 +481,8 @@ package
 
 			CONFIG::LOGGING
 			{
-				logger.trackObject("AssetResource", resource);		
+				logger.trackObject("AssetResource", resource);
+				WmLog.info("AssentRes", resource);
 			}
 			
 			media = factory.createMediaElement(resource);
