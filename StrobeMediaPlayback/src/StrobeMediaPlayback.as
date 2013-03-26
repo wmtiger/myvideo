@@ -56,6 +56,8 @@ package
 	import org.osmf.utils.OSMFSettings;
 	import org.osmf.utils.OSMFStrings;
 	
+	import ru.kutu.osmf.advertisement.AdvertisementPluginInfo;
+	
 	CONFIG::LOGGING
 	{
 		import org.osmf.player.debug.DebugStrobeMediaPlayer;
@@ -307,6 +309,9 @@ package
 			// media:
 			var pluginConfigurations:Vector.<MediaResourceBase> = ConfigurationUtils.transformDynamicObjectToMediaResourceBases(configuration.plugins);
 			var pluginResource:MediaResourceBase;
+			
+			// 这里是测试，将ad的插件放如Vector
+			pluginConfigurations.push(new PluginInfoResource(new AdvertisementPluginInfo()));
 			
 			CONFIG::LOGGING
 			{	
